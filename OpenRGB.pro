@@ -472,6 +472,16 @@ unix:!macx {
     RGBController/OpenRazerDetect.cpp                                   \
     RGBController/RGBController_Faustus.cpp                             \
     RGBController/RGBController_OpenRazer.cpp                           \
+
+    #-------------------------------------------------------------------#
+    # Set up install paths                                              #
+    #-------------------------------------------------------------------#
+    unix:target.path=/usr/bin/
+    unix:desktop.path=/usr/share/applications/
+    unix:desktop.files+=qt/OpenRGB.desktop
+    unix:pixmap.path=/usr/share/pixmaps/
+    unix:pixmap.files+=qt/OpenRGB.png
+    unix:INSTALLS += target desktop pixmap
 }
 
 #-----------------------------------------------------------------------#
