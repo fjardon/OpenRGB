@@ -33,7 +33,7 @@
 std::vector<i2c_smbus_interface*> busses;
 std::vector<RGBController*> rgb_controllers;
 
-#ifdef WIN32
+#ifdef _WIN32
 /******************************************************************************************\
 *                                                                                          *
 *   DetectNuvotonI2CBusses (Windows)                                                       *
@@ -206,9 +206,25 @@ void DetectI2CBusses()
     DetectNvAPII2CBusses();
 
 }   /* DetectI2CBusses() */
+#endif /* _WIN32 */
 
-#else /* WIN32 */
+#ifdef __APPLE__
+/******************************************************************************************\
+*                                                                                          *
+*   DetectI2CBusses (Linux)                                                                *
+*                                                                                          *
+*       Detects available SMBUS adapters and enumerates i2c_smbus_interface objects for    *
+*       them                                                                               *
+*                                                                                          *
+\******************************************************************************************/
 
+void DetectI2CBusses()
+{
+
+}   /* DetectI2CBusses() */
+#endif /* __APPLE__ */
+
+#ifdef __linux__
 /******************************************************************************************\
 *                                                                                          *
 *   DetectI2CBusses (Linux)                                                                *
@@ -278,8 +294,7 @@ void DetectI2CBusses()
     }
 
 }   /* DetectI2CBusses() */
-
-#endif  /* WIN32 */
+#endif  /* __linux__ */
 
 void DetectAuraSMBusControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
 void DetectAuraGPUControllers(std::vector<i2c_smbus_interface*> &busses, std::vector<RGBController*> &rgb_controllers);
@@ -326,7 +341,7 @@ void DetectSteelSeriesControllers(std::vector<RGBController*>& rgb_controllers);
 
 void DetectRGBControllers(void)
 {
-    DetectI2CBusses();
+//    DetectI2CBusses();
 
     DetectAuraSMBusControllers(busses, rgb_controllers);
     DetectAuraGPUControllers(busses, rgb_controllers);
@@ -343,13 +358,13 @@ void DetectRGBControllers(void)
 
     DetectRGBFusionControllers(busses, rgb_controllers);
     DetectMSIMysticLightControllers(rgb_controllers);
-    DetectMSIRGBControllers(rgb_controllers);
+//    DetectMSIRGBControllers(rgb_controllers);
 
     DetectAuraUSBControllers(rgb_controllers);
     DetectAuraCoreControllers(rgb_controllers);
-    DetectLEDStripControllers(rgb_controllers);
+//    DetectLEDStripControllers(rgb_controllers);
     DetectHue2Controllers(rgb_controllers);
-    DetectHuePlusControllers(rgb_controllers);
+//    DetectHuePlusControllers(rgb_controllers);
 
     DetectAMDWraithPrismControllers(rgb_controllers);
     DetectCoolerMasterControllers(rgb_controllers);
@@ -367,17 +382,17 @@ void DetectRGBControllers(void)
 
     DetectE131Controllers(rgb_controllers);
 
-    DetectOpenRazerControllers(rgb_controllers);
+//    DetectOpenRazerControllers(rgb_controllers);
 
-    /*-------------------------------------*\
-    | Windows-only devices                  |
-    \*-------------------------------------*/
-#ifdef WIN32
-    /*-------------------------------------*\
-    | Linux-only devices                    |
-    \*-------------------------------------*/
-#else
-    DetectFaustusControllers(rgb_controllers);
-#endif
+//    /*-------------------------------------*\
+//    | Windows-only devices                  |
+//    \*-------------------------------------*/
+//#ifdef WIN32
+//    /*-------------------------------------*\
+//    | Linux-only devices                    |
+//    \*-------------------------------------*/
+//#else
+//    DetectFaustusControllers(rgb_controllers);
+//#endif
 
 }   /* DetectRGBControllers() */

@@ -22,7 +22,6 @@ typedef unsigned int    u32;
 typedef int             s32;
 
 #ifdef WIN32
-
 //Data for SMBus Messages
 #define I2C_SMBUS_BLOCK_MAX     32
 
@@ -32,12 +31,25 @@ union i2c_smbus_data
     u16         word;
     u8          block[I2C_SMBUS_BLOCK_MAX + 2];
 };
+#endif /* WIN32 */
 
-#else /* WIN32 */
+#ifdef __APPLE__
+//Data for SMBus Messages
+#define I2C_SMBUS_BLOCK_MAX     32
+
+union i2c_smbus_data
+{
+    u8          byte;
+    u16         word;
+    u8          block[I2C_SMBUS_BLOCK_MAX + 2];
+};
+#endif /* __APPLE__ */
+
+#ifdef __linux__
 
 #include <linux/i2c.h>
 
-#endif  /* WIN32 */
+#endif  /* __linux__ */
 
 // i2c_smbus_xfer read or write markers
 #define I2C_SMBUS_READ  1

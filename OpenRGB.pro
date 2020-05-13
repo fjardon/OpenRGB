@@ -195,7 +195,7 @@ SOURCES +=                                                              \
     qt/OpenRGBSystemInfoPage.cpp                                        \
     qt/OpenRGBZoneResizeDialog.cpp                                      \
     qt/hsv.cpp                                                          \
-    serial_port/serial_port.cpp                                         \
+#    serial_port/serial_port.cpp                                         \
     super_io/super_io.cpp                                               \
     Controllers/AMDWraithPrismController/AMDWraithPrismController.cpp   \
     Controllers/AMDWraithPrismController/AMDWraithPrismControllerDetect.cpp \
@@ -223,14 +223,14 @@ SOURCES +=                                                              \
     Controllers/CrucialController/CrucialControllerDetect.cpp           \
     Controllers/Hue2Controller/Hue2Controller.cpp                       \
     Controllers/Hue2Controller/Hue2ControllerDetect.cpp                 \
-    Controllers/HuePlusController/HuePlusController.cpp                 \
-    Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
+#    Controllers/HuePlusController/HuePlusController.cpp                 \
+#    Controllers/HuePlusController/HuePlusControllerDetect.cpp           \
     Controllers/HyperXDRAMController/HyperXDRAMController.cpp           \
     Controllers/HyperXDRAMController/HyperXDRAMControllerDetect.cpp     \
     Controllers/HyperXKeyboardController/HyperXKeyboardController.cpp   \
     Controllers/HyperXKeyboardController/HyperXKeyboardControllerDetect.cpp \
-    Controllers/LEDStripController/LEDStripController.cpp               \
-    Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
+#    Controllers/LEDStripController/LEDStripController.cpp               \
+#    Controllers/LEDStripController/LEDStripControllerDetect.cpp         \
     Controllers/LogitechController/LogitechControllerDetect.cpp         \
     Controllers/LogitechController/LogitechG203Controller.cpp           \
     Controllers/LogitechController/LogitechG403Controller.cpp           \
@@ -278,11 +278,11 @@ SOURCES +=                                                              \
     RGBController/RGBController_Crucial.cpp                             \
     RGBController/RGBController_Dummy.cpp                               \
     RGBController/RGBController_Hue2.cpp                                \
-    RGBController/RGBController_HuePlus.cpp                             \
+#    RGBController/RGBController_HuePlus.cpp                             \
     RGBController/RGBController_HyperXDRAM.cpp                          \
     RGBController/RGBController_HyperXKeyboard.cpp                      \
     RGBController/RGBController_E131.cpp                                \
-    RGBController/RGBController_LEDStrip.cpp                            \
+#    RGBController/RGBController_LEDStrip.cpp                            \
     RGBController/RGBController_LogitechG203.cpp                        \
     RGBController/RGBController_LogitechG403.cpp                        \
     RGBController/RGBController_MSI3Zone.cpp                            \
