@@ -42,6 +42,18 @@ enum
     THERMALTAKE_SPEED_EXTREME       = 0x00
 };
 
+enum
+{
+    THERMALTAKE_FAN_MODE_FIXED      = 0x01,
+    THERMALTAKE_FAN_MODE_PWM        = 0x02
+};
+
+enum
+{
+    THERMALTAKE_FAN_SPEED_MIN       = 20,
+    THERMALTAKE_FAN_SPEED_MAX       = 100
+};
+
 #define THERMALTAKE_NUM_CHANNELS    5
 
 class ThermaltakeRiingController
@@ -53,6 +65,13 @@ public:
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
     void            SetMode(unsigned char mode, unsigned char speed);
 
+    void    SendFan
+                (
+                    unsigned char       port,
+                    unsigned char       mode,
+                    unsigned char       speed
+                );
+
 private:
     hid_device*     dev;
 
@@ -61,15 +80,16 @@ private:
 
     void    SendInit();
 
-    void SendRGB
-        (
-            unsigned char       port,
-            unsigned char       mode,
-            unsigned char       speed,
-            unsigned char       num_colors,
-            unsigned char*      color_data
-        );
 
-    void    SendFan();
+
+    void    SendRGB
+                (
+                    unsigned char       port,
+                    unsigned char       mode,
+                    unsigned char       speed,
+                    unsigned char       num_colors,
+                    unsigned char*      color_data
+                );
+
     void    SendSave();
 };

@@ -32,3 +32,12 @@ public:
         ResourceManager::get()->RegisterI2CBusDetector(detector);
     }
 };
+
+class RGBFanDeviceDetector
+{
+public:
+    RGBFanDeviceDetector(std::string name, DeviceWithFanDetectorFunction detector)
+    {
+        ResourceManager::get()->RegisterDeviceWithFanDetector(name, detector);
+    }
+};

@@ -8,9 +8,11 @@
 
 #include "i2c_smbus.h"
 #include "RGBController.h"
+#include "FanController.h"
 
 typedef std::function<void(std::vector<i2c_smbus_interface*>&)>                                 I2CBusDetectorFunction;
 typedef std::function<void(std::vector<RGBController*>&)>                                       DeviceDetectorFunction;
+typedef std::function<void(std::vector<RGBController*>&, std::vector<FanController*>&)>         DeviceWithFanDetectorFunction;
 typedef std::function<void(std::vector<i2c_smbus_interface*>&, std::vector<RGBController*>&)>   I2CDeviceDetectorFunction;
 
 typedef void (*ResourceManagerCallback)(void *);
@@ -28,10 +30,13 @@ public:
     
     void RegisterRGBController(RGBController *);
     std::vector<RGBController*> & GetRGBControllers();
+
+    std::vector<FanController*> & GetFanControllers();
     
     void RegisterI2CBusDetector         (I2CBusDetectorFunction     detector);
-    void RegisterDeviceDetector         (std::string name, DeviceDetectorFunction     detector);
-    void RegisterI2CDeviceDetector      (std::string name, I2CDeviceDetectorFunction  detector);
+    void RegisterDeviceDetector         (std::string name, DeviceDetectorFunction           detector);
+    void RegisterDeviceWithFanDetector  (std::string name, DeviceWithFanDetectorFunction    detector);
+    void RegisterI2CDeviceDetector      (std::string name, I2CDeviceDetectorFunction        detector);
     
     void RegisterDeviceListChangeCallback(ResourceManagerCallback new_callback, void * new_callback_arg);
 
@@ -54,8 +59,11 @@ private:
 
     std::vector<i2c_smbus_interface*>           busses;
     std::vector<RGBController*>                 rgb_controllers;
+    std::vector<FanController*>                 fan_controllers;
     std::vector<DeviceDetectorFunction>         device_detectors;
+    std::vector<DeviceWithFanDetectorFunction>  device_with_fan_detectors;
     std::vector<std::string>                    device_detector_strings;
+    std::vector<std::string>                    device_with_fan_detector_strings;
     std::vector<I2CBusDetectorFunction>         i2c_bus_detectors;
     std::vector<I2CDeviceDetectorFunction>      i2c_device_detectors;
     std::vector<std::string>                    i2c_device_detector_strings;

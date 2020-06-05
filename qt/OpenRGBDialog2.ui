@@ -21,7 +21,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="iconSize">
        <size>
@@ -101,6 +101,27 @@
       <property name="value">
        <number>24</number>
       </property>
+      <widget class="QWidget" name="TabFans">
+       <attribute name="title">
+        <string>Fans</string>
+       </attribute>
+       <widget class="QTabWidget" name="FanTabBar">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>660</width>
+          <height>248</height>
+         </rect>
+        </property>
+        <property name="tabPosition">
+         <enum>QTabWidget::West</enum>
+        </property>
+        <property name="currentIndex">
+         <number>-1</number>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>

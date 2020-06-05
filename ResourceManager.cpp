@@ -57,6 +57,11 @@ std::vector<RGBController*> & ResourceManager::GetRGBControllers()
     return rgb_controllers;
 }
 
+std::vector<FanController*> & ResourceManager::GetFanControllers()
+{
+    return fan_controllers;
+}
+
 void ResourceManager::RegisterI2CBusDetector(I2CBusDetectorFunction detector)
 {
     i2c_bus_detectors.push_back(detector);
@@ -72,6 +77,12 @@ void ResourceManager::RegisterDeviceDetector(std::string name, DeviceDetectorFun
 {
     device_detector_strings.push_back(name);
     device_detectors.push_back(detector);
+}
+
+void ResourceManager::RegisterDeviceWithFanDetector(std::string name, DeviceWithFanDetectorFunction detector)
+{
+    device_with_fan_detector_strings.push_back(name);
+    device_with_fan_detectors.push_back(detector);
 }
 
 void ResourceManager::RegisterDeviceListChangeCallback(ResourceManagerCallback new_callback, void * new_callback_arg)
@@ -174,6 +185,31 @@ void ResourceManager::DetectDevicesThreadFunction()
         DeviceListChanged();
 
         device_detectors[detector_idx](rgb_controllers);
+
+        /*-------------------------------------------------*\
+        | If the device list size has changed, call the     |
+        | device list changed callbacks                     |
+        \*-------------------------------------------------*/
+        if(rgb_controllers.size() != prev_count)
+        {
+            DeviceListChanged();
+        }
+        prev_count = rgb_controllers.size();
+
+        percent = (detector_idx + 1.0f + i2c_device_detectors.size()) / (i2c_device_detectors.size() + device_detectors.size());
+
+        detection_percent = percent * 100.0f;
+    }
+
+    /*-------------------------------------------------*\
+    | Detect other devices with fans                    |
+    \*-------------------------------------------------*/
+    for(int detector_idx = 0; detector_idx < device_with_fan_detectors.size(); detector_idx++)
+    {
+        detection_string = device_with_fan_detector_strings[detector_idx];
+        DeviceListChanged();
+
+        device_with_fan_detectors[detector_idx](rgb_controllers, fan_controllers);
 
         /*-------------------------------------------------*\
         | If the device list size has changed, call the     |
