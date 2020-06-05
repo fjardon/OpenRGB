@@ -1,4 +1,6 @@
 #include "ThermaltakeRiingController.h"
+#include "FanController.h"
+#include "FanController_ThermaltakeRiing.h"
 #include "RGBController.h"
 #include "RGBController_ThermaltakeRiing.h"
 #include <vector>
@@ -16,7 +18,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers)
+void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers, std::vector<FanController*>& fan_controllers)
 {
     hid_device_info* info;
     hid_device* dev;
@@ -51,6 +53,10 @@ void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controll
             RGBController_ThermaltakeRiing* rgb_controller = new RGBController_ThermaltakeRiing(controller);
 
             rgb_controllers.push_back(rgb_controller);
+
+            FanController_ThermaltakeRiing* fan_controller = new FanController_ThermaltakeRiing(controller);
+
+            fan_controllers.push_back(fan_controller);
         }
     }
 }

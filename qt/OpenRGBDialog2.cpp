@@ -1,6 +1,7 @@
 #include "OpenRGBDialog2.h"
 #include "OpenRGBDevicePage.h"
 #include "OpenRGBDeviceInfoPage.h"
+#include "OpenRGBFanPage.h"
 #include "OpenRGBServerInfoPage.h"
 #include "OpenRGBProfileSaveDialog.h"
 #include <QLabel>
@@ -53,7 +54,7 @@ static QString GetIconString(device_type type)
     }
 }
 
-OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, ProfileManager* manager, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), profile_manager(manager), ui(new OpenRGBDialog2Ui)
+OpenRGBDialog2::OpenRGBDialog2(std::vector<i2c_smbus_interface *>& bus, std::vector<RGBController *>& control, std::vector<FanController *>& fancontrol, ProfileManager* manager, QWidget *parent) : QMainWindow(parent), busses(bus), controllers(control), fan_controllers(fancontrol), profile_manager(manager), ui(new OpenRGBDialog2Ui)
 {
     ui->setupUi(this);
 
@@ -291,6 +292,31 @@ void OpenRGBDialog2::UpdateDevicesList()
         NewTabLabel->setGeometry(0, 0, 200, 20);
 
         DevicesTabBar->setTabButton(dev_idx, QTabBar::LeftSide, NewTabLabel);
+    }
+
+    /*-----------------------------------------------------*\
+    | Set up list of fan devices                            |
+    \*-----------------------------------------------------*/
+    QTabBar *FanTabBar = ui->FanTabBar->tabBar();
+
+    for(std::size_t fan_idx = 0; fan_idx < fancontrol.size(); fan_idx++)
+    {
+        OpenRGBFanPage *NewPage = new OpenRGBFanPage(fancontrol[fan_idx]);
+        ui->FanTabBar->addTab(NewPage, "");
+
+        /*-----------------------------------------------------*\
+        | Use Qt's HTML capabilities to display both icon and   |
+        | text in the tab label.  Choose icon based on device   |
+        | type and append device name string.                   |
+        \*-----------------------------------------------------*/
+        QString NewLabelString = QString::fromStdString(fancontrol[fan_idx]->name);
+
+        QLabel *NewTabLabel = new QLabel();
+        NewTabLabel->setText(NewLabelString);
+        NewTabLabel->setIndent(20);
+        NewTabLabel->setGeometry(0, 0, 200, 20);
+
+        FanTabBar->setTabButton(fan_idx, QTabBar::LeftSide, NewTabLabel);
     }
 
     /*-----------------------------------------------------*\

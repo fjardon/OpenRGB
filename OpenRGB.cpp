@@ -6,6 +6,7 @@
 *                                                                                          *
 \******************************************************************************************/
 
+#include "FanController.h"
 #include "RGBController.h"
 #include "i2c_smbus.h"
 #include <vector>
@@ -32,6 +33,7 @@
 #endif /* WIN32 */
 
 std::vector<i2c_smbus_interface*> busses;
+std::vector<FanController*> fan_controllers;
 std::vector<RGBController*> rgb_controllers;
 
 #ifdef WIN32
@@ -344,7 +346,7 @@ void DetectCorsairPeripheralControllers(std::vector<RGBController*>& rgb_control
 void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectFaustusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectHyperXKeyboardControllers(std::vector<RGBController*>& rgb_controllers);
-void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers);
+void DetectThermaltakeRiingControllers(std::vector<RGBController*>& rgb_controllers, std::vector<FanController*>& fan_controllers);
 void DetectRGBFusion2USBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectRedragonControllers(std::vector<RGBController*>& rgb_controllers);
 void DetectLogitechControllers(std::vector<RGBController*>& rgb_controllers);
@@ -395,7 +397,7 @@ void DetectRGBControllers(void)
     DetectHyperXKeyboardControllers(rgb_controllers);
     DetectCorsairPeripheralControllers(rgb_controllers);
     DetectCorsairLightingNodeControllers(rgb_controllers);
-    DetectThermaltakeRiingControllers(rgb_controllers);
+    DetectThermaltakeRiingControllers(rgb_controllers, fan_controllers);
     DetectRGBFusion2USBControllers(rgb_controllers);
     DetectRedragonControllers(rgb_controllers);
     DetectLogitechControllers(rgb_controllers);

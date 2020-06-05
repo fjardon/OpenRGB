@@ -15,13 +15,37 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="3" column="3">
+     <widget class="QComboBox" name="ProfileBox"/>
+    </item>
+    <item row="3" column="2">
+     <widget class="QPushButton" name="ButtonDeleteProfile">
+      <property name="text">
+       <string>Delete Profile</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="ButtonLoadProfile">
+      <property name="text">
+       <string>Load Profile</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QPushButton" name="ButtonSaveProfile">
+      <property name="text">
+       <string>Save Profile</string>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="0" colspan="4">
      <widget class="QTabWidget" name="MainTabBar">
       <property name="tabShape">
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="iconSize">
        <size>
@@ -60,30 +84,27 @@
         </item>
        </layout>
       </widget>
-     </widget>
-    </item>
-    <item row="3" column="3">
-     <widget class="QComboBox" name="ProfileBox"/>
-    </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="ButtonLoadProfile">
-      <property name="text">
-       <string>Load Profile</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="0">
-     <widget class="QPushButton" name="ButtonSaveProfile">
-      <property name="text">
-       <string>Save Profile</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QPushButton" name="ButtonDeleteProfile">
-      <property name="text">
-       <string>Delete Profile</string>
-      </property>
+      <widget class="QWidget" name="TabFans">
+       <attribute name="title">
+        <string>Fans</string>
+       </attribute>
+       <widget class="QTabWidget" name="FanTabBar">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>660</width>
+          <height>248</height>
+         </rect>
+        </property>
+        <property name="tabPosition">
+         <enum>QTabWidget::West</enum>
+        </property>
+        <property name="currentIndex">
+         <number>-1</number>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>

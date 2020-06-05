@@ -80,6 +80,7 @@ INCLUDEPATH +=                                                          \
     Controllers/RGBFusionGPUController/                                 \
     Controllers/SteelSeriesController/                                  \
     Controllers/ThermaltakeRiingController/                             \
+    FanController/                                                      \
     RGBController/                                                      \
     qt/
 
@@ -97,6 +98,7 @@ HEADERS +=                                                              \
     i2c_tools/i2c_tools.h                                               \
     net_port/net_port.h                                                 \
     qt/OpenRGBDialog2.h                                                 \
+    qt/OpenRGBFanPage.h                                                 \
     qt/OpenRGBProfileSaveDialog.h                                       \
     qt/OpenRGBServerInfoPage.h                                          \
     qt/OpenRGBSoftwareInfoPage.h                                        \
@@ -144,6 +146,8 @@ HEADERS +=                                                              \
     Controllers/SteelSeriesController/SteelSeriesRivalController.h      \
     Controllers/SteelSeriesController/SteelSeriesSiberiaController.h    \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.h \
+    FanController/FanController.h                                       \
+    FanController/FanController_ThermaltakeRiing.h                      \
     RGBController/RGBController.h                                       \
     RGBController/RGBController_AMDWraithPrism.h                        \
     RGBController/RGBController_AuraUSB.h                               \
@@ -203,6 +207,7 @@ SOURCES +=                                                              \
     i2c_tools/i2c_tools.cpp                                             \
     net_port/net_port.cpp                                               \
     qt/OpenRGBDialog2.cpp                                               \
+    qt/OpenRGBFanPage.cpp                                               \
     qt/OpenRGBProfileSaveDialog.cpp                                     \
     qt/OpenRGBServerInfoPage.cpp                                        \
     qt/OpenRGBSoftwareInfoPage.cpp                                      \
@@ -283,6 +288,7 @@ SOURCES +=                                                              \
     Controllers/SteelSeriesController/SteelSeriesControllerDetect.cpp   \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingController.cpp \
     Controllers/ThermaltakeRiingController/ThermaltakeRiingControllerDetect.cpp \
+    FanController/FanController_ThermaltakeRiing.cpp                    \
     RGBController/RGBController.cpp                                     \
     RGBController/E131ControllerDetect.cpp                              \
     RGBController/RGBController_AMDWraithPrism.cpp                      \
@@ -335,6 +341,7 @@ FORMS +=                                                                \
     qt/OpenRGBDevicePage.ui                                             \
     qt/OpenRGBDialog.ui                                                 \
     qt/OpenRGBDialog2.ui                                                \
+    qt/OpenRGBFanPage.ui                                                \
     qt/OpenRGBProfileSaveDialog.ui                                      \
     qt/OpenRGBServerInfoPage.ui                                         \
     qt/OpenRGBSoftwareInfoPage.ui                                       \
