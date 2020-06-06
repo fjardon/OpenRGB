@@ -65,15 +65,22 @@ public:
 
     std::string     GetFirmwareVersion();
 
+    void            GetFanData
+                        (
+                            unsigned char       port,
+                            unsigned char *     speed,
+                            unsigned short *    rpm
+                        );
+
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
     void            SetMode(unsigned char mode, unsigned char speed);
 
-    void    SendFan
-                (
-                    unsigned char       port,
-                    unsigned char       mode,
-                    unsigned char       speed
-                );
+    void            SendFan
+                        (
+                            unsigned char       port,
+                            unsigned char       mode,
+                            unsigned char       speed
+                        );
 
 private:
     hid_device*     dev;

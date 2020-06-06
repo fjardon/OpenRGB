@@ -24,6 +24,7 @@ typedef struct
     unsigned int        speed_cmd;      /* Speed command            */
     unsigned int        speed_min;      /* Minimum speed command    */
     unsigned int        speed_max;      /* Maximum speed command    */
+    unsigned int        rpm_rdg;        /* RPM reading              */
 } fan;
 
 class FanController
