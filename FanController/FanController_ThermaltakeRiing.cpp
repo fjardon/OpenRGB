@@ -15,6 +15,7 @@ FanController_ThermaltakeRiing::FanController_ThermaltakeRiing(ThermaltakeRiingC
 
     name        = "Thermaltake Riing";
     description = "Thermaltake Riing Device";
+    version     = riing->GetFirmwareVersion();
 
     for(std::size_t fan_index = 0; fan_index < THERMALTAKE_NUM_CHANNELS; fan_index++)
     {

@@ -8,6 +8,7 @@
 \*-----------------------------------------*/
 
 #include "RGBController.h"
+#include <string>
 #include <vector>
 #include <hidapi/hidapi.h>
 
@@ -62,6 +63,8 @@ public:
     ThermaltakeRiingController(hid_device* dev_handle);
     ~ThermaltakeRiingController();
 
+    std::string     GetFirmwareVersion();
+
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
     void            SetMode(unsigned char mode, unsigned char speed);
 
@@ -79,8 +82,6 @@ private:
     unsigned char   current_speed;
 
     void    SendInit();
-
-
 
     void    SendRGB
                 (
