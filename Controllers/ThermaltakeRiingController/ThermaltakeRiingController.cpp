@@ -23,6 +23,37 @@ ThermaltakeRiingController::~ThermaltakeRiingController()
 
 }
 
+void ThermaltakeRiingController::GetFanData
+    (
+        unsigned char       port,
+        unsigned char *     speed,
+        unsigned short *    rpm
+    )
+{
+    unsigned char usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Get Fan Data packet                            |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = 0x33;
+    usb_buf[0x01]   = 0x51;
+    usb_buf[0x02]   = port;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 64);
+
+    *speed = usb_buf[0x04];
+    *rpm   = (usb_buf[0x06] << 8) + usb_buf[0x05];
+}
+
 std::string ThermaltakeRiingController::GetFirmwareVersion()
 {
     unsigned char usb_buf[64];
@@ -33,7 +64,7 @@ std::string ThermaltakeRiingController::GetFirmwareVersion()
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
     /*-----------------------------------------------------*\
-    | Set up Init packet                                    |
+    | Set up Get Firmware Version packet                    |
     \*-----------------------------------------------------*/
     usb_buf[0x00]   = 0x33;
     usb_buf[0x01]   = 0x50;
@@ -44,7 +75,7 @@ std::string ThermaltakeRiingController::GetFirmwareVersion()
     hid_write(dev, usb_buf, 64);
     hid_read(dev, usb_buf, 64);
 
-    std::string ret_str = std::to_string(usb_buf[0]) + "." + std::to_string(usb_buf[1]) + "." + std::to_string(usb_buf[2]);
+    std::string ret_str = std::to_string(usb_buf[2]) + "." + std::to_string(usb_buf[3]) + "." + std::to_string(usb_buf[4]);
 
     return(ret_str);
 }
