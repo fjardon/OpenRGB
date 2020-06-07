@@ -1,4 +1,6 @@
 #include "CorsairLightingNodeController.h"
+#include "FanController.h"
+#include "FanController_CorsairCommander.h"
 #include "RGBController.h"
 #include "RGBController_CorsairLightingNode.h"
 #include <vector>
@@ -17,6 +19,7 @@ typedef struct
     unsigned short  usb_vid;
     unsigned short  usb_pid;
     unsigned char   channel_count;
+    bool            has_fan;
     const char *    name;
 } corsair_node_device;
 
@@ -24,12 +27,12 @@ typedef struct
 
 static const corsair_node_device device_list[] =
 {
-    { CORSAIR_VID,          CORSAIR_LIGHTING_NODE_CORE_PID,     1,      "Corsair Lighting Node Core"    },
-    { CORSAIR_VID,          CORSAIR_LIGHTING_NODE_PRO_PID,      2,      "Corsair Lighting Node Pro"     },
-    { CORSAIR_VID,          CORSAIR_COMMANDER_PRO_PID,          2,      "Corsair Commander Pro"         },
-    { CORSAIR_VID,          CORSAIR_LS100_PID,                  1,      "Corsair LS100 Lighting Kit"    },
-    { CORSAIR_VID,          CORSAIR_1000D_OBSIDIAN_PID,         2,      "Corsair 1000D Obsidian"        },
-    { CORSAIR_VID,          CORSAIR_SPEC_OMEGA_RGB_PID,         2,      "Corsair SPEC OMEGA RGB"        }
+    { CORSAIR_VID,          CORSAIR_LIGHTING_NODE_CORE_PID,     1,      false,  "Corsair Lighting Node Core"    },
+    { CORSAIR_VID,          CORSAIR_LIGHTING_NODE_PRO_PID,      2,      false,  "Corsair Lighting Node Pro"     },
+    { CORSAIR_VID,          CORSAIR_COMMANDER_PRO_PID,          2,      true,   "Corsair Commander Pro"         },
+    { CORSAIR_VID,          CORSAIR_LS100_PID,                  1,      false,  "Corsair LS100 Lighting Kit"    },
+    { CORSAIR_VID,          CORSAIR_1000D_OBSIDIAN_PID,         2,      false,  "Corsair 1000D Obsidian"        },
+    { CORSAIR_VID,          CORSAIR_SPEC_OMEGA_RGB_PID,         2,      false,  "Corsair SPEC OMEGA RGB"        }
 };
 
 /******************************************************************************************\
@@ -40,7 +43,7 @@ static const corsair_node_device device_list[] =
 *                                                                                          *
 \******************************************************************************************/
 
-void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_controllers)
+void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_controllers, std::vector<FanController*> &fan_controllers)
 {
     hid_device_info* info;
     hid_device* dev;
@@ -70,6 +73,13 @@ void DetectCorsairLightingNodeControllers(std::vector<RGBController*> &rgb_contr
                     rgb_controller->name = device_list[device_idx].name;
 
                     rgb_controllers.push_back(rgb_controller);
+
+                    if(device_list[device_idx].has_fan)
+                    {
+                        FanController_CorsairCommander* fan_controller = new FanController_CorsairCommander(controller);
+
+                        fan_controllers.push_back(fan_controller);
+                    }
                 }
             }
 
