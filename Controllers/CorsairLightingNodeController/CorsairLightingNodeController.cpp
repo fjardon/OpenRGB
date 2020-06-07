@@ -73,6 +73,38 @@ void CorsairLightingNodeController::KeepaliveThread()
     }
 }
 
+unsigned char CorsairLightingNodeController::GetFanPercent(unsigned char fan_channel)
+{
+    int             actual;
+    unsigned char   usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Get Fan RPM packet                             |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_GET_FAN_PERCENT;
+    usb_buf[0x01]   = fan_channel;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 64);
+    actual = hid_read(dev, usb_buf, 16);
+
+    if(actual > 0)
+    {
+        return(usb_buf[0x01]);
+    }
+    else
+    {
+        return(0);
+    }    
+}
+
 unsigned short CorsairLightingNodeController::GetFanRPM(unsigned char fan_channel)
 {
     int             actual;

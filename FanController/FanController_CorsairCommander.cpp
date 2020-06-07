@@ -25,8 +25,8 @@ FanController_CorsairCommander::FanController_CorsairCommander(CorsairLightingNo
         new_fan.name.append(std::to_string(fan_index + 1));
         new_fan.speed_min   = 0;
         new_fan.speed_max   = 100;
-        new_fan.speed_cmd   = 0;
-        new_fan.rpm_rdg     = 0;
+        new_fan.speed_cmd   = corsair->GetFanPercent(fan_index);
+        new_fan.rpm_rdg     = corsair->GetFanRPM(fan_index);
 
         fans.push_back(new_fan);
 
