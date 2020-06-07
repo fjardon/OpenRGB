@@ -13,7 +13,9 @@
 enum
 {
     CORSAIR_LIGHTING_NODE_PACKET_ID_FIRMWARE         = 0x02,     /* Get firmware version                 */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_GET_FAN_CONFIG   = 0x20,     /* Get fan configuration                */
     CORSAIR_LIGHTING_NODE_PACKET_ID_GET_FAN_RPM      = 0x21,     /* Get fan RPM                          */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_GET_FAN_PERCENT  = 0x22,     /* Get fan fixed percent command        */
     CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CMD_PERCENT  = 0x23,     /* Set fan fixed percent command        */
     CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CMD_RPM      = 0x24,     /* Set fan fixed RPM command            */
     CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CONFIG       = 0x28,     /* Set fan configuration                */
@@ -102,6 +104,8 @@ class CorsairLightingNodeController
 public:
     CorsairLightingNodeController(hid_device* dev_handle);
     ~CorsairLightingNodeController();
+
+    unsigned char   GetFanPercent(unsigned char fan_channel);
 
     unsigned short  GetFanRPM(unsigned char fan_channel);
 
