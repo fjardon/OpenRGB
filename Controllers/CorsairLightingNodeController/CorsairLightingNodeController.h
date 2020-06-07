@@ -16,6 +16,7 @@ enum
     CORSAIR_LIGHTING_NODE_PACKET_ID_GET_FAN_RPM      = 0x21,     /* Get fan RPM                          */
     CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CMD_PERCENT  = 0x23,     /* Set fan fixed percent command        */
     CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CMD_RPM      = 0x24,     /* Set fan fixed RPM command            */
+    CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CONFIG       = 0x28,     /* Set fan configuration                */
     CORSAIR_LIGHTING_NODE_PACKET_ID_DIRECT           = 0x32,     /* Direct mode LED update packet        */
     CORSAIR_LIGHTING_NODE_PACKET_ID_COMMIT           = 0x33,     /* Commit changes packet                */
     CORSAIR_LIGHTING_NODE_PACKET_ID_BEGIN            = 0x34,     /* Begin effect packet                  */
@@ -89,6 +90,13 @@ enum
     CORSAIR_LIGHTING_NODE_MODE_RAINBOW               = 0x0A,     /* Rainbow mode                         */
 };
 
+enum
+{
+    CORSAIR_LIGHTING_NODE_FAN_CONFIG_AUTO            = 0x00,     /* Auto/Disconnected                    */
+    CORSAIR_LIGHTING_NODE_FAN_CONFIG_3_PIN           = 0x01,     /* 3-Pin Fan                            */
+    CORSAIR_LIGHTING_NODE_FAN_CONFIG_4_PIN           = 0x02,     /* 4-Pin Fan                            */
+};
+
 class CorsairLightingNodeController
 {
 public:
@@ -119,6 +127,12 @@ public:
                                     );
 
     void            SetChannelLEDs(unsigned char channel, RGBColor * colors, unsigned int num_colors);
+
+    void            SetFanConfiguration
+                        (
+                            unsigned char   fan_channel,
+                            unsigned char   fan_configuration
+                        );
 
     void            SetFanPercent
                         (

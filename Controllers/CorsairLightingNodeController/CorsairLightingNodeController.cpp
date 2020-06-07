@@ -93,11 +93,11 @@ unsigned short CorsairLightingNodeController::GetFanRPM(unsigned char fan_channe
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 64);
-    actual = hid_read(dev, usb_buf, 64);
+    actual = hid_read(dev, usb_buf, 16);
 
     if(actual > 0)
     {
-        return((usb_buf[0x02] << 8) + (usb_buf[0x01] & 0xFF));
+        return((usb_buf[0x01] << 8) + (usb_buf[0x02] & 0xFF));
     }
     else
     {
@@ -223,6 +223,34 @@ void CorsairLightingNodeController::SetChannelLEDs(unsigned char channel, RGBCol
     SendCommit();
 }
 
+void CorsairLightingNodeController::SetFanConfiguration
+    (
+        unsigned char   fan_channel,
+        unsigned char   fan_configuration
+    )
+{
+    unsigned char   usb_buf[64];
+
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
+    memset(usb_buf, 0x00, sizeof(usb_buf));
+
+    /*-----------------------------------------------------*\
+    | Set up Fan Configuration packet                       |
+    \*-----------------------------------------------------*/
+    usb_buf[0x00]   = CORSAIR_LIGHTING_NODE_PACKET_ID_FAN_CONFIG;
+    usb_buf[0x01]   = 0x02;
+    usb_buf[0x02]   = fan_channel;
+    usb_buf[0x03]   = fan_configuration;
+
+    /*-----------------------------------------------------*\
+    | Send packet                                           |
+    \*-----------------------------------------------------*/
+    hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 16);
+}
+
 void CorsairLightingNodeController::SetFanPercent
     (
         unsigned char   fan_channel,
@@ -247,6 +275,7 @@ void CorsairLightingNodeController::SetFanPercent
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 16);
 }
 
 void CorsairLightingNodeController::SetFanRPM
@@ -274,6 +303,7 @@ void CorsairLightingNodeController::SetFanRPM
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 64);
+    hid_read(dev, usb_buf, 16);
 }
 
 /*-------------------------------------------------------------------------------------------------*\

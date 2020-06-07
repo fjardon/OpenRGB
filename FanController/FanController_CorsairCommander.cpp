@@ -29,6 +29,8 @@ FanController_CorsairCommander::FanController_CorsairCommander(CorsairLightingNo
         new_fan.rpm_rdg     = 0;
 
         fans.push_back(new_fan);
+
+        corsair->SetFanConfiguration(fan_index, CORSAIR_LIGHTING_NODE_FAN_CONFIG_4_PIN);
     }
 
     UpdateControl();
