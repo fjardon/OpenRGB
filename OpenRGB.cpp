@@ -334,7 +334,7 @@ void DetectMSIRGBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAuraUSBControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectAuraCoreControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers);
-void DetectNZXTHue2Controllers(std::vector<RGBController*> &rgb_controllers);
+void DetectNZXTHue2Controllers(std::vector<RGBController*> &rgb_controllers, std::vector<FanController*> &fan_controllers);
 void DetectHuePlusControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectOpenRazerControllers(std::vector<RGBController*> &rgb_controllers);
 void DetectE131Controllers(std::vector<RGBController*> &rgb_controllers);
@@ -387,7 +387,7 @@ void DetectRGBControllers(void)
     DetectAuraUSBControllers(rgb_controllers);
     DetectAuraCoreControllers(rgb_controllers);
     DetectLEDStripControllers(rgb_controllers);
-    DetectNZXTHue2Controllers(rgb_controllers);
+    DetectNZXTHue2Controllers(rgb_controllers, fan_controllers);
     DetectHuePlusControllers(rgb_controllers);
 
     DetectAMDWraithPrismControllers(rgb_controllers);
