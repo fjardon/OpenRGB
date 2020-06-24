@@ -278,6 +278,12 @@ void OpenRGBDialog2::ClearDevicesList()
         delete ui->InformationTabBar->widget(tab_idx);
     }
     ui->InformationTabBar->clear();
+
+    for(int tab_idx = 0; tab_idx < ui->FanTabBar->count(); tab_idx++)
+    {
+        delete ui->FanTabBar->widget(tab_idx);
+    }
+    ui->FanTabBar->clear();
 }
 
 void OpenRGBDialog2::UpdateDevicesList()
