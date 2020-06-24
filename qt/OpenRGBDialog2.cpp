@@ -247,6 +247,12 @@ void OpenRGBDialog2::ClearDevicesList()
         delete ui->InformationTabBar->widget(tab_idx);
     }
     ui->InformationTabBar->clear();
+
+    for(int tab_idx = 0; tab_idx < ui->FanTabBar->count(); tab_idx++)
+    {
+        delete ui->FanTabBar->widget(tab_idx);
+    }
+    ui->FanTabBar->clear();
 }
 
 void OpenRGBDialog2::UpdateDevicesList()
@@ -299,9 +305,9 @@ void OpenRGBDialog2::UpdateDevicesList()
     \*-----------------------------------------------------*/
     QTabBar *FanTabBar = ui->FanTabBar->tabBar();
 
-    for(std::size_t fan_idx = 0; fan_idx < fancontrol.size(); fan_idx++)
+    for(std::size_t fan_idx = 0; fan_idx < fan_controllers.size(); fan_idx++)
     {
-        OpenRGBFanPage *NewPage = new OpenRGBFanPage(fancontrol[fan_idx]);
+        OpenRGBFanPage *NewPage = new OpenRGBFanPage(fan_controllers[fan_idx]);
         ui->FanTabBar->addTab(NewPage, "");
 
         /*-----------------------------------------------------*\
@@ -309,7 +315,7 @@ void OpenRGBDialog2::UpdateDevicesList()
         | text in the tab label.  Choose icon based on device   |
         | type and append device name string.                   |
         \*-----------------------------------------------------*/
-        QString NewLabelString = QString::fromStdString(fancontrol[fan_idx]->name);
+        QString NewLabelString = QString::fromStdString(fan_controllers[fan_idx]->name);
 
         QLabel *NewTabLabel = new QLabel();
         NewTabLabel->setText(NewLabelString);
