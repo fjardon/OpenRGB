@@ -94,6 +94,7 @@ void NZXTHue2Controller::SendFan
 void NZXTHue2Controller::UpdateDeviceList()
 {
     unsigned char   usb_buf[64];
+    unsigned int    ret_val = 0;
 
     /*-----------------------------------------------------*\
     | Zero out buffer                                       |
@@ -110,7 +111,14 @@ void NZXTHue2Controller::UpdateDeviceList()
     | Send packet                                           |
     \*-----------------------------------------------------*/
     hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 64);
+
+    /*-----------------------------------------------------*\
+    | Receive packets until 0x21 0x03 is received           |
+    \*-----------------------------------------------------*/
+    do
+    {
+        ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
+    } while( (ret_val != 64) || (usb_buf[0] != 0x21) || (usb_buf[1] != 0x03) );
 
     for(int chan = 0; chan < num_rgb_channels; chan++)
     {
@@ -379,14 +387,28 @@ void NZXTHue2Controller::SendEffect
 void NZXTHue2Controller::SendFirmwareRequest()
 {
     unsigned char   usb_buf[64];
+    unsigned int    ret_val = 0;
 
+    /*-----------------------------------------------------*\
+    | Zero out buffer                                       |
+    \*-----------------------------------------------------*/
     memset(usb_buf, 0x00, sizeof(usb_buf));
 
+    /*-----------------------------------------------------*\
+    | Set up Firmware Request packet                        |
+    \*-----------------------------------------------------*/
     usb_buf[0x00]   = 0x10;
     usb_buf[0x01]   = 0x01;
 
     hid_write(dev, usb_buf, 64);
-    hid_read(dev, usb_buf, 64);
+
+    /*-----------------------------------------------------*\
+    | Receive packets until 0x11 0x01 is received           |
+    \*-----------------------------------------------------*/
+    do
+    {
+        ret_val = hid_read(dev, usb_buf, sizeof(usb_buf));
+    } while( (ret_val != 64) || (usb_buf[0] != 0x11) || (usb_buf[1] != 0x01) );
 
     snprintf(firmware_version, 16, "%u.%u.%u", usb_buf[0x11], usb_buf[0x12], usb_buf[0x13]);
 }

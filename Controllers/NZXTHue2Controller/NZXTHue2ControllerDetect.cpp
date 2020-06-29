@@ -29,9 +29,9 @@ static const nzxt_hue_2_device device_list[] =
     | NZXT Hue 2 devices                                                                                    |
     \*-----------------------------------------------------------------------------------------------------*/
     { NZXT_VID,             NZXT_HUE_2_PID,                 4,  0,      "NZXT Hue 2"                        },
-    { NZXT_VID,             NZXT_HUE_2_AMBIENT_PID,         4,  0,      "NZXT Hue 2 Ambient"                },
-    { NZXT_VID,             NZXT_SMART_DEVICE_V2_PID,       4,  3,      "NZXT Smart Device V2"              },
-    { NZXT_VID,             NZXT_RGB_FAN_CONTROLLER_PID,    4,  3,      "NZXT RGB & Fan Controller"         },
+    { NZXT_VID,             NZXT_HUE_2_AMBIENT_PID,         2,  0,      "NZXT Hue 2 Ambient"                },
+    { NZXT_VID,             NZXT_SMART_DEVICE_V2_PID,       2,  3,      "NZXT Smart Device V2"              },
+    { NZXT_VID,             NZXT_RGB_FAN_CONTROLLER_PID,    2,  3,      "NZXT RGB & Fan Controller"         },
 };
 
 /******************************************************************************************\
