@@ -135,6 +135,8 @@ void ResourceManager::DetectDevicesThreadFunction()
     DetectDeviceMutex.lock();
     unsigned int prev_count = 0;
     float        percent = 0.0f;
+    unsigned int total_detectors = (i2c_device_detectors.size() + device_detectors.size() + device_with_fan_detectors.size());
+    unsigned int run_detectors = 0;
 
     ProfileManager profile_manager(rgb_controllers);
 
@@ -171,8 +173,11 @@ void ResourceManager::DetectDevicesThreadFunction()
         }
         prev_count = rgb_controllers.size();
 
-        percent = (i2c_detector_idx + 1.0f) / (i2c_device_detectors.size() + device_detectors.size());
-
+        /*-------------------------------------------------*\
+        | Update detection percentage                       |
+        \*-------------------------------------------------*/
+        run_detectors++;
+        percent = run_detectors / total_detectors;
         detection_percent = percent * 100.0f;
     }
 
@@ -196,8 +201,11 @@ void ResourceManager::DetectDevicesThreadFunction()
         }
         prev_count = rgb_controllers.size();
 
-        percent = (detector_idx + 1.0f + i2c_device_detectors.size()) / (i2c_device_detectors.size() + device_detectors.size());
-
+        /*-------------------------------------------------*\
+        | Update detection percentage                       |
+        \*-------------------------------------------------*/
+        run_detectors++;
+        percent = run_detectors / total_detectors;
         detection_percent = percent * 100.0f;
     }
 
@@ -221,8 +229,11 @@ void ResourceManager::DetectDevicesThreadFunction()
         }
         prev_count = rgb_controllers.size();
 
-        percent = (detector_idx + 1.0f + i2c_device_detectors.size()) / (i2c_device_detectors.size() + device_detectors.size());
-
+        /*-------------------------------------------------*\
+        | Update detection percentage                       |
+        \*-------------------------------------------------*/
+        run_detectors++;
+        percent = run_detectors / total_detectors;
         detection_percent = percent * 100.0f;
     }
 
