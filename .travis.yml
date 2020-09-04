@@ -1,0 +1,6 @@
+dist: bionic
+language: minimal
+script:
+- apt update
+- apt install -y build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf wget git
+- ./scripts/build-appimage.sh
