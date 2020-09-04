@@ -6,5 +6,5 @@ build_script:
 - ./scripts/build-appimage.sh
 
 artifacts:
-  paths:
-  - OpenRGB-x86_64.AppImage
+- path: OpenRGB-x86_64.AppImage
+  name: OpenRGB-x86_64
