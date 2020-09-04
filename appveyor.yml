@@ -1,6 +1,7 @@
 image: ubuntu2004
   
 build_script:
+- sudo dpkg --add-architecture i386
 - sudo apt update
 - sudo apt install -y build-essential gcc:i386 g++:i386 qt5-default qt5-default:i386 libusb-1.0-0-dev libusb-1.0-0-dev:i386 libhidapi-dev libhidapi-dev:i386 pkgconf wget git
 - ./scripts/build-appimage.sh
