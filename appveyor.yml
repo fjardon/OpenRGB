@@ -4,3 +4,7 @@ build_script:
 - sudo apt update
 - sudo apt install -y build-essential qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf wget git
 - ./scripts/build-appimage.sh
+
+artifacts:
+  paths:
+  - OpenRGB-x86_64.AppImage
