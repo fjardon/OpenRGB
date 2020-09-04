@@ -1,4 +1,4 @@
-image: ubuntu2004
+image: ubuntu
   
 build_script:
 - sudo dpkg --add-architecture i386
