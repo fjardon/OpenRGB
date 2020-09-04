@@ -46,13 +46,13 @@ pushd "$BUILD_DIR"
 # we need to explicitly set the install prefix, as qmake's default is   #
 # /usr/local for some reason...                                         #
 #-----------------------------------------------------------------------#
-qmake "$REPO_ROOT"
+/usr/lib/i386-linux-gnu/qt5/bin/qmake "$REPO_ROOT"
 
 #-----------------------------------------------------------------------#
 # Build project and install files into AppDir                           #
 #-----------------------------------------------------------------------#
-make -j$(nproc)
-make install INSTALL_ROOT=AppDir
+LD_LIBRARY_PATH=/usr/lib/i386-linux-gnu/ make -j$(nproc)
+LD_LIBRARY_PATH=/usr/lib/i386-linux-gnu/ make install INSTALL_ROOT=AppDir
 
 #-----------------------------------------------------------------------#
 # Now, build AppImage using linuxdeploy and linuxdeploy-plugin-qt       #
