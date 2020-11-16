@@ -38,12 +38,6 @@ enum CommandsId
     QMK_RGBMATRIX_GET_HSV
 };
 
-enum EEPROMCommands
-{
-    QMK_RGBMATRIX_EEPROM_SAVE,
-    QMK_RGBMATRIX_EEPROM_DONT_SAVE
-};
-
 enum ModeCommands
 {
     QMK_RGBMATRIX_MODE_HID_DIRECT = 1,
@@ -109,8 +103,8 @@ public:
 
     std::string GetLocation();
 
-    std::string GetVersion();
-    std::string GetName();
+    std::string GetQMKVersion();
+    std::string GetDeviceName();
     unsigned int GetZonesCount();
     std::string GetZoneName(int zone);
     unsigned int GetZoneType(int zone);

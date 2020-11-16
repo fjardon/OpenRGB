@@ -102,8 +102,7 @@ void QMKRGBMatrixController::SetMode(unsigned char mode)
     \*-----------------------------------------------------*/
     usb_buf[0x00]   = 0x00;
     usb_buf[0x01]   = QMK_RGBMATRIX_SET_MODE;
-    usb_buf[0x02]   = QMK_RGBMATRIX_EEPROM_DONT_SAVE;
-    usb_buf[0x03]   = mode;
+    usb_buf[0x02]   = mode;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -126,9 +125,8 @@ void QMKRGBMatrixController::SetModeAndSpeed(unsigned char mode, unsigned char s
     \*-----------------------------------------------------*/
     usb_buf[0x00]   = 0x00;
     usb_buf[0x01]   = QMK_RGBMATRIX_SET_MODE_AND_SPEED;
-    usb_buf[0x02]   = QMK_RGBMATRIX_EEPROM_DONT_SAVE;
-    usb_buf[0x03]   = mode;
-    usb_buf[0x04]   = speed;
+    usb_buf[0x02]   = mode;
+    usb_buf[0x03]   = speed;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -151,18 +149,17 @@ void QMKRGBMatrixController::SetColorModeAndSpeed(hsv_t hsv_color, unsigned char
     \*-----------------------------------------------------*/
     usb_buf[0x00]   = 0x00;
     usb_buf[0x01]   = QMK_RGBMATRIX_SET_COLOR_MODE_AND_SPEED;
-    usb_buf[0x02]   = QMK_RGBMATRIX_EEPROM_DONT_SAVE;
 
     // qmk hue range is between 0-255, instead of the regular 0-359, so hue needs to be converted
     unsigned int oldRange = 359;
     unsigned int newRange = 255;
     unsigned int convertedHue = (hsv_color.hue * newRange / oldRange);
 
-    usb_buf[0x03]   = convertedHue;
-    usb_buf[0x04]   = hsv_color.saturation;
-    usb_buf[0x05]   = hsv_color.value;
-    usb_buf[0x06]   = mode;
-    usb_buf[0x07]   = speed;
+    usb_buf[0x02]   = convertedHue;
+    usb_buf[0x03]   = hsv_color.saturation;
+    usb_buf[0x04]   = hsv_color.value;
+    usb_buf[0x05]   = mode;
+    usb_buf[0x06]   = speed;
 
     /*-----------------------------------------------------*\
     | Send packet                                           |
@@ -176,7 +173,7 @@ std::string QMKRGBMatrixController::GetLocation()
     return location;
 }
 
-std::string QMKRGBMatrixController::GetVersion()
+std::string QMKRGBMatrixController::GetQMKVersion()
 {
     unsigned char usb_buf[65];
     /*-----------------------------------------------------*\
@@ -204,7 +201,7 @@ std::string QMKRGBMatrixController::GetVersion()
     return name;
 }
 
-std::string QMKRGBMatrixController::GetName()
+std::string QMKRGBMatrixController::GetDeviceName()
 {
     unsigned char usb_buf[65];
     /*-----------------------------------------------------*\

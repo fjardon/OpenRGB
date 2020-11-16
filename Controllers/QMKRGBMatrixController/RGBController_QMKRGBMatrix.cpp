@@ -14,11 +14,11 @@ RGBController_QMKRGBMatrix::RGBController_QMKRGBMatrix(QMKRGBMatrixController* q
 {
     qmk_rgb_matrix = qmk_rgb_matrix_ptr;
 
-    name = qmk_rgb_matrix_ptr->GetName();
+    name = qmk_rgb_matrix_ptr->GetDeviceName();
     description = "QMK RGB Matrix Device";
     type = DEVICE_TYPE_KEYBOARD;
     location = qmk_rgb_matrix_ptr->GetLocation();
-    version = qmk_rgb_matrix_ptr->GetVersion();
+    version = qmk_rgb_matrix_ptr->GetQMKVersion();
 
     mode Direct;
     Direct.name       = "Direct";
