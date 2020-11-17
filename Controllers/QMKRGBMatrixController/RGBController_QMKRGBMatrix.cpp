@@ -475,8 +475,8 @@ void RGBController_QMKRGBMatrix::SetupZones()
             unsigned int led_matrix_rows = qmk_rgb_matrix->GetLEDMatirxRows();
 
             keyboard_zone.matrix_map = new matrix_map_type;
-            keyboard_zone.matrix_map->height = led_matrix_columns;
-            keyboard_zone.matrix_map->width = led_matrix_rows;
+            keyboard_zone.matrix_map->height = led_matrix_rows;
+            keyboard_zone.matrix_map->width = led_matrix_columns;
 
             unsigned int* matrix_map = new unsigned int[led_matrix_rows * led_matrix_columns];
             for(unsigned int y = 0; y < led_matrix_columns; y++)
