@@ -483,7 +483,7 @@ void RGBController_QMKRGBMatrix::SetupZones()
             {
                 for(unsigned int x = 0; x < led_matrix_rows; x++)
                 {
-                    matrix_map[led_matrix_rows * y + x] = qmk_rgb_matrix->GetLEDValueInMatrix(y, x);
+                    matrix_map[led_matrix_columns * x + y] = qmk_rgb_matrix->GetLEDValueInMatrix(y, x);
                 }
             }
 
