@@ -24,7 +24,7 @@ before_script:
 .ccache_init: &ccache_init
   before_script:
     - apt update
-    - apt install -y build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev pkgconf wget git
+    - apt install -y build-essential qtcreator qt5-default libusb-1.0-0-dev libhidapi-dev libmbedtls-dev pkgconf wget git
 
 #-----------------------------------------------------------------------#
 # Linux (AppImage) 32-bit Build Target                                  #
