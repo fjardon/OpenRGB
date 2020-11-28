@@ -320,7 +320,7 @@ unsigned int QMKRGBMatrixController::GetZoneSize(int zone)
     return usb_buf[1];
 }
 
-std::string QMKRGBMatrixController::GetLEDName(int led)
+std::string QMKRGBMatrixController::GetLEDName(int led_column, int led_row)
 {
     unsigned char usb_buf[65];
     /*-----------------------------------------------------*\
@@ -333,20 +333,13 @@ std::string QMKRGBMatrixController::GetLEDName(int led)
     \*-----------------------------------------------------*/
     usb_buf[0x00] = 0x00;
     usb_buf[0x01] = QMK_RGBMATRIX_GET_LED_NAME;
-    usb_buf[0x02] = led;
+    usb_buf[0x02] = led_column;
+    usb_buf[0x03] = led_row;
 
     hid_write(dev, (unsigned char*)usb_buf, 65);
     hid_read_timeout(dev, (unsigned char*)usb_buf, 65, 1000);
 
-    int i = 1;
-    std::string name;
-    while(usb_buf[i] != 0)
-    {
-        name.push_back(usb_buf[i]);
-        i++;
-    }
-
-    return name;
+    return QMKKeycodeToKeyName[usb_buf[1]];
 }
 
 unsigned int QMKRGBMatrixController::GetLEDMatirxRows()

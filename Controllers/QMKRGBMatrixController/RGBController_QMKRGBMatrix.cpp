@@ -455,20 +455,16 @@ RGBController_QMKRGBMatrix::~RGBController_QMKRGBMatrix()
 
 void RGBController_QMKRGBMatrix::SetupZones()
 {
-    int led_index = 0;
-    int zone_count = qmk_rgb_matrix->GetZonesCount();
-
-    for(int i = 0; i < zone_count; i++)
+    for(unsigned int i = 0; i < qmk_rgb_matrix->GetZonesCount(); i++)
     {
-        unsigned int zone_led_count = qmk_rgb_matrix->GetZoneSize(i);
-
         zone keyboard_zone;
         keyboard_zone.name = qmk_rgb_matrix->GetZoneName(i);
         keyboard_zone.type = qmk_rgb_matrix->GetZoneType(i);
-        keyboard_zone.leds_min = zone_led_count;
-        keyboard_zone.leds_max = zone_led_count;
-        keyboard_zone.leds_count = zone_led_count;
+        keyboard_zone.leds_min = qmk_rgb_matrix->GetZoneSize(i);
+        keyboard_zone.leds_max = keyboard_zone.leds_min;
+        keyboard_zone.leds_count = keyboard_zone.leds_min;
 
+        std::vector<std::string> led_names;
         if(keyboard_zone.type == ZONE_TYPE_MATRIX)
         {
             unsigned int led_matrix_columns = qmk_rgb_matrix->GetLEDMatirxColumns();
@@ -479,35 +475,47 @@ void RGBController_QMKRGBMatrix::SetupZones()
             keyboard_zone.matrix_map->width = led_matrix_columns;
 
             unsigned int* matrix_map = new unsigned int[led_matrix_rows * led_matrix_columns];
-            for(unsigned int y = 0; y < led_matrix_columns; y++)
+            for(unsigned int x = 0; x < led_matrix_rows; x++)
             {
-                for(unsigned int x = 0; x < led_matrix_rows; x++)
+                for(unsigned int y = 0; y < led_matrix_columns; y++)
                 {
-                    matrix_map[led_matrix_columns * x + y] = qmk_rgb_matrix->GetLEDValueInMatrix(y, x);
+                    unsigned int led_value = qmk_rgb_matrix->GetLEDValueInMatrix(y, x);
+                    matrix_map[led_matrix_columns * x + y] = led_value;
+
+                    if(led_value != 255)
+                    {
+                        std::string led_name = qmk_rgb_matrix->GetLEDName(y, x);
+                        if(led_name != "") 
+                            led_names.push_back(led_name);
+                    }
                 }
             }
 
             keyboard_zone.matrix_map->map = matrix_map;
         }
-        else
+        else 
         {
             keyboard_zone.matrix_map = NULL;
         }
 
         zones.push_back(keyboard_zone);
 
-        for(std::size_t led_idx = 0; led_idx < zone_led_count; led_idx++)
+        for(unsigned int led_idx = 0; led_idx < keyboard_zone.leds_count; led_idx++)
         {
             led keyboard_led;
-            keyboard_led.name = qmk_rgb_matrix->GetLEDName(led_index);
+
+            if(leds.size() < zones[0].leds_count) 
+                keyboard_led.name = "Key: " + led_names[led_idx];
+            else 
+                keyboard_led.name = "Underglow: " + std::to_string(led_idx);
+
             leds.push_back(keyboard_led);
-            led_index++;
         }
     }
 
     SetupColors();
 
-    for(int i = 0; i < led_index; i++)
+    for(unsigned int i = 0; i < leds.size(); i++)
     {
         colors[i] = qmk_rgb_matrix->GetLEDColor(i);
     }
