@@ -96,7 +96,7 @@ public:
     ~QMKRGBMatrixController();
 
     void SetSingleLED(unsigned int led, unsigned char red, unsigned char green, unsigned char blue);
-    void SetLEDs(RGBColor* colors, unsigned int num_colors);
+    void SetLEDs(std::vector<RGBColor> colors, unsigned int num_colors);
 
     void SetMode(unsigned char mode);
     void SetModeAndSpeed(unsigned char mode, unsigned char speed);

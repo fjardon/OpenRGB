@@ -48,17 +48,17 @@ void QMKRGBMatrixController::SetSingleLED(unsigned int led, unsigned char red, u
     hid_read(dev, usb_buf, 65);
 }
 
-void QMKRGBMatrixController::SetLEDs(RGBColor* colors, unsigned int num_colors)
+void QMKRGBMatrixController::SetLEDs(std::vector<RGBColor> colors, unsigned int leds_count)
 {
     unsigned int leds_sent = 0;
 
-    while(leds_sent < num_colors)
+    while(leds_sent < leds_count)
     {
         unsigned int leds_to_send = 2;
 
-        if((num_colors - leds_sent) < leds_to_send)
+        if((leds_count - leds_sent) < leds_to_send)
         {
-            leds_to_send = num_colors - leds_sent;
+            leds_to_send = leds_count - leds_sent;
         }
 
         unsigned char usb_buf[65];

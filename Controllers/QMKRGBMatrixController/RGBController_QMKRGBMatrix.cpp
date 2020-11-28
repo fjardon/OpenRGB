@@ -530,10 +530,7 @@ void RGBController_QMKRGBMatrix::ResizeZone(int /*zone*/, int /*new_size*/)
 
 void RGBController_QMKRGBMatrix::DeviceUpdateLEDs()
 {
-    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
-    {
-        qmk_rgb_matrix->SetLEDs(zones[zone_idx].colors, zones[zone_idx].leds_count);
-    }
+    qmk_rgb_matrix->SetLEDs(colors, leds.size());
 }
 
 void RGBController_QMKRGBMatrix::UpdateZoneLEDs(int /*zone*/)
@@ -564,7 +561,7 @@ void RGBController_QMKRGBMatrix::DeviceUpdateMode()
     else if(modes[active_mode].color_mode == MODE_COLORS_NONE)
     {
         qmk_rgb_matrix->SetModeAndSpeed(modes[active_mode].value, modes[active_mode].speed);
-    } 
+    }
     else if(modes[active_mode].color_mode == MODE_COLORS_MODE_SPECIFIC)
     {
         RGBColor color = modes[active_mode].colors[0];
