@@ -17,23 +17,21 @@
 enum MSI_ZONE
 {
     MSI_ZONE_J_RGB_1                = 1,
-    MSI_ZONE_J_RGB_2                = 174,
-    MSI_ZONE_J_PIPE_1               = 11,
-    MSI_ZONE_J_PIPE_2               = 21,
-    MSI_ZONE_J_RAINBOW_1            = 31,
-    MSI_ZONE_J_RAINBOW_2            = 42,
-    MSI_ZONE_J_CORSAIR              = 53,
-    MSI_ZONE_J_CORSAIR_OUTERLL120   = 64,
-    MSI_ZONE_ON_BOARD_LED           = 74,
-    MSI_ZONE_ON_BOARD_LED_1         = 84,
-    MSI_ZONE_ON_BOARD_LED_2         = 94,
-    MSI_ZONE_ON_BOARD_LED_3         = 104,
-    MSI_ZONE_ON_BOARD_LED_4         = 114,
-    MSI_ZONE_ON_BOARD_LED_5         = 124,
-    MSI_ZONE_ON_BOARD_LED_6         = 134,
-    MSI_ZONE_ON_BOARD_LED_7         = 144,
-    MSI_ZONE_ON_BOARD_LED_8         = 154,
-    MSI_ZONE_ON_BOARD_LED_9         = 164
+    MSI_ZONE_J_RGB_2                = 2,
+    MSI_ZONE_J_RAINBOW_1            = 3,
+    MSI_ZONE_J_RAINBOW_2            = 4,
+    MSI_ZONE_J_CORSAIR              = 5,
+    MSI_ZONE_ON_BOARD_LED           = 6,
+    MSI_ZONE_ON_BOARD_LED_1         = 7,
+    MSI_ZONE_ON_BOARD_LED_2         = 8,
+    MSI_ZONE_ON_BOARD_LED_3         = 9,
+    MSI_ZONE_ON_BOARD_LED_4         = 10,
+    MSI_ZONE_ON_BOARD_LED_5         = 11,
+    MSI_ZONE_ON_BOARD_LED_6         = 12,
+    MSI_ZONE_ON_BOARD_LED_7         = 13,
+    MSI_ZONE_ON_BOARD_LED_8         = 14,
+    MSI_ZONE_ON_BOARD_LED_9         = 15,
+    MSI_ZONE_ON_BOARD_LED_10        = 16
 };
 
 struct ZoneDescription
@@ -136,10 +134,10 @@ struct ZoneData
 {
     unsigned char effect                    = MSI_MODE_STATIC;
     Color         color                     { 0, 0, 0 };
-    unsigned char speedAndBrightnessFlags   = 40;
+    unsigned char speedAndBrightnessFlags   = 0;
     Color         color2                    { 0, 0, 0 };
-    unsigned char colorFlags                = 128;
-    const unsigned char padding             = 0;
+    unsigned char colorFlags                = 0;
+    unsigned char padding                   = 0;
 };
 
 struct RainbowZoneData : ZoneData
@@ -147,7 +145,7 @@ struct RainbowZoneData : ZoneData
     unsigned char cycle_or_led_num          = 20;
 };
 
-struct FeaturePacket
+struct FeaturePacket_185
 {
     const unsigned char report_id           = 0x52; // Report ID
     ZoneData            j_rgb_1;                    // 1
@@ -171,6 +169,27 @@ struct FeaturePacket
     unsigned char       save_data           = 0;    // 184
 };
 
+struct FeaturePacket
+{
+    const unsigned char report_id           = 0x52; // Report ID
+    ZoneData            j_rgb_1;                    // 1
+    ZoneData            j_rainbow_1;                // 11
+    ZoneData            j_corsair_1;                // 21
+    ZoneData            j_corsair_outerll120;       // 31
+    ZoneData            on_board_led;               // 41
+    ZoneData            on_board_led_1;             // 51
+    ZoneData            on_board_led_2;             // 61
+    ZoneData            on_board_led_3;             // 71
+    ZoneData            on_board_led_4;             // 81
+    ZoneData            on_board_led_5;             // 91
+    ZoneData            on_board_led_6;             // 101
+    ZoneData            on_board_led_7;             // 111
+    ZoneData            on_board_led_8;             // 121
+    ZoneData            on_board_led_9;             // 131
+    ZoneData            on_board_led_10;            // 141
+    ZoneData            j_rgb_2;                    // 151
+    unsigned char       save_data           = 0;    // 161
+};
 
 class MSIMysticLightController
 {
@@ -258,35 +277,6 @@ public:
                         MSI_FAN_TYPE    &fan_type,
                         unsigned char   &corsair_device_quantity,
                         bool            &is_LL120Outer_individual
-                        );
-
-    bool            SetVolume
-                        (
-                        unsigned char   main,
-                        unsigned char   left,
-                        unsigned char   right
-                        );
-
-    void            SetBoardSyncSettings
-                        (
-                        bool            onboard_sync,
-                        bool            combine_JRGB,
-                        bool            combine_JPIPE1,
-                        bool            combine_JPIPE2,
-                        bool            combine_JRAINBOW1,
-                        bool            combine_JRAINBOW2,
-                        bool            combine_crossair
-                        );
-
-    void            GetBoardSyncSettings
-                        (
-                        bool            &onboard_sync,
-                        bool            &combine_JRGB,
-                        bool            &combine_JPIPE1,
-                        bool            &combine_JPIPE2,
-                        bool            &combine_JRAINBOW1,
-                        bool            &combine_JRAINBOW2,
-                        bool            &combine_crossair
                         );
 
     std::string     GetDeviceName();

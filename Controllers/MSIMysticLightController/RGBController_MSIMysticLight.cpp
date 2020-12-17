@@ -10,16 +10,15 @@
 #include "RGBController_MSIMysticLight.h"
 #include <array>
 
-static const std::array<ZoneDescription, 18> led_zones
+#define NUM_LED_ZONES (sizeof(led_zones) / sizeof(ZoneDescription))
+
+static const ZoneDescription led_zones[] =
 {
     ZoneDescription{"JRGB1",            MSI_ZONE_J_RGB_1},
     ZoneDescription{"JRGB2",            MSI_ZONE_J_RGB_2},
     ZoneDescription{"JRAINBOW1",        MSI_ZONE_J_RAINBOW_1},
     ZoneDescription{"JRAINBOW2",        MSI_ZONE_J_RAINBOW_2},
-    ZoneDescription{"JPIPE1",           MSI_ZONE_J_PIPE_1},
-    ZoneDescription{"JPIPE2",           MSI_ZONE_J_PIPE_2},
     ZoneDescription{"JCORSAIR",         MSI_ZONE_J_CORSAIR},
-    ZoneDescription{"JCORSAIR Outer",   MSI_ZONE_J_CORSAIR_OUTERLL120},
     ZoneDescription{"Onboard LED 0",    MSI_ZONE_ON_BOARD_LED},
     ZoneDescription{"Onboard LED 1",    MSI_ZONE_ON_BOARD_LED_1},
     ZoneDescription{"Onboard LED 2",    MSI_ZONE_ON_BOARD_LED_2},
@@ -30,6 +29,7 @@ static const std::array<ZoneDescription, 18> led_zones
     ZoneDescription{"Onboard LED 7",    MSI_ZONE_ON_BOARD_LED_7},
     ZoneDescription{"Onboard LED 8",    MSI_ZONE_ON_BOARD_LED_8},
     ZoneDescription{"Onboard LED 9",    MSI_ZONE_ON_BOARD_LED_9},
+    ZoneDescription{"Onboard LED 10",   MSI_ZONE_ON_BOARD_LED_10},
 };
 
 RGBController_MSIMysticLight::RGBController_MSIMysticLight(MSIMysticLightController* controller_ptr)
@@ -59,16 +59,16 @@ void RGBController_MSIMysticLight::SetupZones()
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < led_zones.size(); zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < 16; zone_idx++)
     {
         ZoneDescription zd = led_zones[zone_idx];
         zone new_zone;
         new_zone.name           = zd.name;
         new_zone.type           = ZONE_TYPE_LINEAR;
 
-        new_zone.leds_min       = controller->GetZoneMinLedCount(zd.value);
-        new_zone.leds_max       = controller->GetZoneMaxLedCount(zd.value);
-        new_zone.leds_count     = controller->GetZoneLedCount(zd.value);
+        new_zone.leds_min       = 1;
+        new_zone.leds_max       = 1;
+        new_zone.leds_count     = 1;
         new_zone.matrix_map     = NULL;
         zones.push_back(new_zone);
 
@@ -94,17 +94,6 @@ void RGBController_MSIMysticLight::SetupZones()
 
 void RGBController_MSIMysticLight::ResizeZone(int zone, int new_size)
 {
-    if((size_t) zone >= zones.size())
-    {
-        return;
-    }
-
-    MSI_ZONE zon            = ZoneFromPos(zone);
-    unsigned int max_count  = controller->GetZoneMaxLedCount(zon);
-    unsigned int min_count  = controller->GetZoneMinLedCount(zon);
-    unsigned int new_siz    = new_size;
-    new_siz = std::min(std::max(new_siz, min_count), max_count); // std::clamp only from C++17
-    /// TODO: Update LED count
 }
 
 void RGBController_MSIMysticLight::SetCustomMode()
@@ -116,8 +105,12 @@ void RGBController_MSIMysticLight::DeviceUpdateLEDs()
 {
     for(size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
     {
-        UpdateZoneLEDs(zone_idx);
+        for(int led_idx = zones[zone_idx].leds_count - 1; led_idx >= 0; led_idx--)
+        {
+            UpdateLed(zone_idx, led_idx);
+        }
     }
+    controller->Update();
 }
 
 void RGBController_MSIMysticLight::UpdateZoneLEDs(int zone)
