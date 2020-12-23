@@ -12,34 +12,72 @@
 
 #define NUM_LED_ZONES (sizeof(led_zones) / sizeof(ZoneDescription))
 
+static const MSI_LED ZoneList_JRGB1[] =
+{
+    MSI_LED_J_RGB_1,
+    MSI_LED_NONE
+};
+
+static const MSI_LED ZoneList_JRGB2[] =
+{
+    MSI_LED_J_RGB_2,
+    MSI_LED_NONE
+};
+
+static const MSI_LED ZoneList_JRainbow1[] =
+{
+    MSI_LED_J_RAINBOW_1,
+    MSI_LED_NONE
+};
+
+static const MSI_LED ZoneList_JRainbow2[] =
+{
+    MSI_LED_J_RAINBOW_2,
+    MSI_LED_NONE
+};
+
+static const MSI_LED ZoneList_JCorsair[] =
+{
+    MSI_LED_J_CORSAIR,
+    MSI_LED_NONE
+};
+
+static const MSI_LED ZoneList_Onboard[] =
+{
+    MSI_LED_ON_BOARD_LED_0,
+    MSI_LED_ON_BOARD_LED_1,
+    MSI_LED_ON_BOARD_LED_2,
+    MSI_LED_ON_BOARD_LED_3,
+    MSI_LED_ON_BOARD_LED_4,
+    MSI_LED_ON_BOARD_LED_5,
+    MSI_LED_ON_BOARD_LED_6,
+    MSI_LED_ON_BOARD_LED_7,
+    MSI_LED_ON_BOARD_LED_8,
+    MSI_LED_ON_BOARD_LED_9,
+    MSI_LED_ON_BOARD_LED_10,
+    MSI_LED_NONE
+};
+
+#define NUM_ZONES (sizeof(led_zones) / sizeof(led_zones[0]))
+
 static const ZoneDescription led_zones[] =
 {
-    ZoneDescription{"JRGB1",            MSI_ZONE_J_RGB_1},
-    ZoneDescription{"JRGB2",            MSI_ZONE_J_RGB_2},
-    ZoneDescription{"JRAINBOW1",        MSI_ZONE_J_RAINBOW_1},
-    ZoneDescription{"JRAINBOW2",        MSI_ZONE_J_RAINBOW_2},
-    ZoneDescription{"JCORSAIR",         MSI_ZONE_J_CORSAIR},
-    ZoneDescription{"Onboard LED 0",    MSI_ZONE_ON_BOARD_LED},
-    ZoneDescription{"Onboard LED 1",    MSI_ZONE_ON_BOARD_LED_1},
-    ZoneDescription{"Onboard LED 2",    MSI_ZONE_ON_BOARD_LED_2},
-    ZoneDescription{"Onboard LED 3",    MSI_ZONE_ON_BOARD_LED_3},
-    ZoneDescription{"Onboard LED 4",    MSI_ZONE_ON_BOARD_LED_4},
-    ZoneDescription{"Onboard LED 5",    MSI_ZONE_ON_BOARD_LED_5},
-    ZoneDescription{"Onboard LED 6",    MSI_ZONE_ON_BOARD_LED_6},
-    ZoneDescription{"Onboard LED 7",    MSI_ZONE_ON_BOARD_LED_7},
-    ZoneDescription{"Onboard LED 8",    MSI_ZONE_ON_BOARD_LED_8},
-    ZoneDescription{"Onboard LED 9",    MSI_ZONE_ON_BOARD_LED_9},
-    ZoneDescription{"Onboard LED 10",   MSI_ZONE_ON_BOARD_LED_10},
+    ZoneDescription{"JRGB1",            ZoneList_JRGB1      },
+    ZoneDescription{"JRGB2",            ZoneList_JRGB2      },
+    ZoneDescription{"JRAINBOW1",        ZoneList_JRainbow1  },
+    ZoneDescription{"JRAINBOW2",        ZoneList_JRainbow2  },
+    ZoneDescription{"JCORSAIR",         ZoneList_JCorsair   },
+    ZoneDescription{"Onboard LEDs",     ZoneList_Onboard    },
 };
 
 RGBController_MSIMysticLight::RGBController_MSIMysticLight(MSIMysticLightController* controller_ptr)
 {
     controller = controller_ptr;
 
-    name        = "MSI Mystic Light Controller";
+    name        = controller->GetDeviceName();
     vendor      = "MSI";
     type        = DEVICE_TYPE_MOTHERBOARD;
-    description = controller->GetDeviceName();
+    description = "MSI Mystic Light Device";
     version     = controller->GetFWVersion();
     location    = controller->GetDeviceLocation();
     serial      = controller->GetSerial();
@@ -59,16 +97,25 @@ void RGBController_MSIMysticLight::SetupZones()
     /*---------------------------------------------------------*\
     | Set up zones                                              |
     \*---------------------------------------------------------*/
-    for(std::size_t zone_idx = 0; zone_idx < 16; zone_idx++)
+    for(std::size_t zone_idx = 0; zone_idx < NUM_ZONES; zone_idx++)
     {
-        ZoneDescription zd = led_zones[zone_idx];
+        ZoneDescription zd      = led_zones[zone_idx];
+        
         zone new_zone;
+
+        unsigned int led_count;
+
+        while(zd.leds[led_count] != MSI_LED_NONE)
+        {
+            led_count++;
+        }
+
         new_zone.name           = zd.name;
         new_zone.type           = ZONE_TYPE_LINEAR;
 
-        new_zone.leds_min       = 1;
-        new_zone.leds_max       = 1;
-        new_zone.leds_count     = 1;
+        new_zone.leds_min       = led_count;
+        new_zone.leds_max       = led_count;
+        new_zone.leds_count     = led_count;
         new_zone.matrix_map     = NULL;
         zones.push_back(new_zone);
 
@@ -85,7 +132,7 @@ void RGBController_MSIMysticLight::SetupZones()
                 new_led.name.append(std::to_string(led_idx + 1));
             }
 
-            new_led.value = zone_idx;
+            new_led.value = zd.leds[led_idx];
 
             leds.push_back(new_led);
         }
@@ -185,17 +232,11 @@ void RGBController_MSIMysticLight::UpdateLed(int zone, int led)
     unsigned char red   = RGBGetRValue(zones[zone].colors[led]);
     unsigned char grn   = RGBGetGValue(zones[zone].colors[led]);
     unsigned char blu   = RGBGetBValue(zones[zone].colors[led]);
-    MSI_MODE mode       = (MSI_MODE)(modes[active_mode].value);
-    MSI_SPEED speed     = (MSI_SPEED)(modes[active_mode].speed);
-    MSI_ZONE zon        = ZoneFromPos(zone);
+    MSI_MODE      mode  = (MSI_MODE)(modes[active_mode].value);
+    MSI_SPEED     speed = (MSI_SPEED)(modes[active_mode].speed);
     
-    controller->SetMode(zon, mode, speed, MSI_BRIGHTNESS_LEVEL_100, random);
-    controller->SetZoneColor(zon, red, grn, blu, red, grn, blu);
-}
-
-MSI_ZONE RGBController_MSIMysticLight::ZoneFromPos(int zone)
-{
-    return led_zones[zone].value;
+    controller->SetMode((MSI_LED)zones[zone].leds[led].value, mode, speed, MSI_BRIGHTNESS_LEVEL_100, random);
+    controller->SetLEDColor((MSI_LED)zones[zone].leds[led].value, red, grn, blu, red, grn, blu);
 }
 
 void RGBController_MSIMysticLight::SetupMode(const char *name, MSI_MODE mod, unsigned int flags)

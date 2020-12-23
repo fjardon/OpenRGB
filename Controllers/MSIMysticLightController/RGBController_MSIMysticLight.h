@@ -12,6 +12,12 @@
 #include "MSIMysticLightController.h"
 #include <vector>
 
+struct ZoneDescription
+{
+    std::string     name;
+    const MSI_LED*  leds;
+};
+
 class RGBController_MSIMysticLight: public RGBController
 {
 public:
@@ -32,7 +38,6 @@ public:
 private:
     void        SetupModes();
     void        UpdateLed(int zone, int led);
-    MSI_ZONE    ZoneFromPos(int zone);
     void        SetupMode(const char *name, MSI_MODE mode, unsigned int flags);
 
     MSIMysticLightController*       controller;

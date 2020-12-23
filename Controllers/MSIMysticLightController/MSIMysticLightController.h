@@ -14,30 +14,25 @@
 
 #pragma once
 
-enum MSI_ZONE
+enum MSI_LED
 {
-    MSI_ZONE_J_RGB_1                = 1,
-    MSI_ZONE_J_RGB_2                = 2,
-    MSI_ZONE_J_RAINBOW_1            = 3,
-    MSI_ZONE_J_RAINBOW_2            = 4,
-    MSI_ZONE_J_CORSAIR              = 5,
-    MSI_ZONE_ON_BOARD_LED           = 6,
-    MSI_ZONE_ON_BOARD_LED_1         = 7,
-    MSI_ZONE_ON_BOARD_LED_2         = 8,
-    MSI_ZONE_ON_BOARD_LED_3         = 9,
-    MSI_ZONE_ON_BOARD_LED_4         = 10,
-    MSI_ZONE_ON_BOARD_LED_5         = 11,
-    MSI_ZONE_ON_BOARD_LED_6         = 12,
-    MSI_ZONE_ON_BOARD_LED_7         = 13,
-    MSI_ZONE_ON_BOARD_LED_8         = 14,
-    MSI_ZONE_ON_BOARD_LED_9         = 15,
-    MSI_ZONE_ON_BOARD_LED_10        = 16
-};
-
-struct ZoneDescription
-{
-    std::string name;
-    MSI_ZONE    value;
+    MSI_LED_NONE                        = 0,
+    MSI_LED_J_RGB_1                     = 1,
+    MSI_LED_J_RGB_2                     = 2,
+    MSI_LED_J_RAINBOW_1                 = 3,
+    MSI_LED_J_RAINBOW_2                 = 4,
+    MSI_LED_J_CORSAIR                   = 5,
+    MSI_LED_ON_BOARD_LED_0              = 6,
+    MSI_LED_ON_BOARD_LED_1              = 7,
+    MSI_LED_ON_BOARD_LED_2              = 8,
+    MSI_LED_ON_BOARD_LED_3              = 9,
+    MSI_LED_ON_BOARD_LED_4              = 10,
+    MSI_LED_ON_BOARD_LED_5              = 11,
+    MSI_LED_ON_BOARD_LED_6              = 12,
+    MSI_LED_ON_BOARD_LED_7              = 13,
+    MSI_LED_ON_BOARD_LED_8              = 14,
+    MSI_LED_ON_BOARD_LED_9              = 15,
+    MSI_LED_ON_BOARD_LED_10             = 16
 };
 
 enum MSI_MODE
@@ -197,30 +192,9 @@ public:
     MSIMysticLightController(hid_device* handle, const char *path);
     ~MSIMysticLightController();
 
-    unsigned int    GetZoneMinLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    unsigned int    GetZoneMaxLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    unsigned int    GetZoneLedCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    void            SetZoneLedCount
-                        (
-                        MSI_ZONE        zone,
-                        unsigned int    led_count
-                        );
-
     void            SetMode
                         (
-                        MSI_ZONE        zone,
+                        MSI_LED         zone,
                         MSI_MODE        mode,
                         MSI_SPEED       speed,
                         MSI_BRIGHTNESS  brightness,
@@ -229,16 +203,16 @@ public:
 
     void            GetMode
                         (
-                        MSI_ZONE        zone,
+                        MSI_LED         zone,
                         MSI_MODE        &mode,
                         MSI_SPEED       &speed,
                         MSI_BRIGHTNESS  &brightness,
                         bool            &rainbow_color
                         );
 
-    void            SetZoneColor
+    void            SetLEDColor
                         (
-                        MSI_ZONE        zone,
+                        MSI_LED         zone,
                         unsigned char   red1,
                         unsigned char   grn1,
                         unsigned char   blu1,
@@ -247,37 +221,7 @@ public:
                         unsigned char   blu2
                         );
 
-    void            SetCycleCount
-                        (
-                        MSI_ZONE        zone,
-                        unsigned char   cycle_num
-                        );
-
-    unsigned char   GetCycleCount
-                        (
-                        MSI_ZONE        zone
-                        );
-
-    std::pair<Color, Color>
-                    GetZoneColor(MSI_ZONE zone);
-
     bool            Update();
-
-    void            SetDeviceSettings
-                        (
-                        bool            stripe_or_fan,
-                        MSI_FAN_TYPE    fan_type,
-                        unsigned char   corsair_device_quantity,
-                        bool            is_LL120Outer_individual
-                        );
-
-    void            GetDeviceSettings
-                        (
-                        bool            &stripe_or_fan,
-                        MSI_FAN_TYPE    &fan_type,
-                        unsigned char   &corsair_device_quantity,
-                        bool            &is_LL120Outer_individual
-                        );
 
     std::string     GetDeviceName();
     std::string     GetDeviceLocation();
@@ -290,9 +234,9 @@ private:
     bool            ReadFwVersion();
     void            ReadSerial();
     void            ReadName();
-    ZoneData*       GetZoneData(MSI_ZONE zone);
+    ZoneData*       GetZoneData(MSI_LED zone);
     RainbowZoneData*
-                    GetRainbowZoneData(MSI_ZONE zone);
+                    GetRainbowZoneData(MSI_LED zone);
     static unsigned char   BitSet(unsigned char value, bool bit, unsigned int position);
 
     hid_device*             dev;

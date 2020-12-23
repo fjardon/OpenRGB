@@ -26,17 +26,19 @@ void DetectMSIMysticLightControllers(hid_device_info* info, const std::string& n
     {
         MSIMysticLightController * controller = new MSIMysticLightController(dev, info->path);
         RGBController_MSIMysticLight * rgb_controller = new RGBController_MSIMysticLight(controller);
-        rgb_controller->name = name;
         ResourceManager::get()->RegisterRGBController(rgb_controller);
     }
 }   /* DetectMSIMysticLightControllers() */
 
 #ifdef ENABLE_MYSTIC_LIGHT
+/*-----------------------------------------------------*\
+| MSI Mystic Light 185-byte                             |
+\*-----------------------------------------------------*/
 //REGISTER_HID_DETECTOR("MSI Mystic Light MS_3EA4", DetectMSIMysticLightControllers, MSI_USB_VID, 0x3EA4);
 //REGISTER_HID_DETECTOR("MSI Mystic Light MS_4459", DetectMSIMysticLightControllers, MSI_USB_VID, 0x4459);
 
 //REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B10", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B10);
-//REGISTER_HID_DETECTOR("MSI B450 Pro Carbon AC",   DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B93);
+//REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B93",   DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B93);
 //REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B94", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B94);
 //REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B96", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B96);
 
@@ -77,5 +79,8 @@ void DetectMSIMysticLightControllers(hid_device_info* info, const std::string& n
 
 //REGISTER_HID_DETECTOR("MSI Mystic Light MS_905D", DetectMSIMysticLightControllers, MSI_USB_VID, 0x905D);
 
+/*-----------------------------------------------------*\
+| MSI Mystic Light 162-byte                             |
+\*-----------------------------------------------------*/
 REGISTER_HID_DETECTOR("MSI Mystic Light MS_7B85", DetectMSIMysticLightControllers, MSI_USB_VID, 0x7B85);
 #endif
