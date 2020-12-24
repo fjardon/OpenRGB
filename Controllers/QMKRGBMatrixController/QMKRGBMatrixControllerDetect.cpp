@@ -29,8 +29,9 @@ typedef struct
 
 static const qmk_rgb_matrix_device device_list[] =
 {
-    { MASSDROP_VID, MASSDROP_ALT_PID, 1, "Massdrop Alt" },
+    { MASSDROP_VID, MASSDROP_ALT_PID,  1, "Massdrop Alt"  },
     { MASSDROP_VID, MASSDROP_CTRL_PID, 1, "Massdrop Ctrl" },
+    { 0x0C45,       0x5004,            1, "Redragon K556" },
 };
 
 /******************************************************************************************\

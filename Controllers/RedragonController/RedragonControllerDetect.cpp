@@ -64,7 +64,7 @@ void DetectRedragonMice(hid_device_info* info, const std::string& name)
 \*---------------------------------------------------------------------------------------------------------------------------------------------*/
 REGISTER_HID_DETECTOR_IP("Redragon K550 Yama",      DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, REDRAGON_K550_PID,         1, REDRAGON_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Redragon K552 Kumara",    DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, REDRAGON_K552_PID,         1, REDRAGON_KEYBOARD_USAGE_PAGE);
-REGISTER_HID_DETECTOR_IP("Redragon K556 Devarajas", DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, REDRAGON_K556_PID,         1, REDRAGON_KEYBOARD_USAGE_PAGE);
+//REGISTER_HID_DETECTOR_IP("Redragon K556 Devarajas", DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, REDRAGON_K556_PID,         1, REDRAGON_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Tecware Phantom Elite",   DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, TECWARE_PHANTOM_ELITE_PID, 1, REDRAGON_KEYBOARD_USAGE_PAGE);
 REGISTER_HID_DETECTOR_IP("Warrior Kane TC235",      DetectRedragonKeyboards, REDRAGON_KEYBOARD_VID, WARRIOR_KANE_TC235,        1, REDRAGON_KEYBOARD_USAGE_PAGE);
 /*---------------------------------------------------------------------------------------------------------------------------------------------*\
